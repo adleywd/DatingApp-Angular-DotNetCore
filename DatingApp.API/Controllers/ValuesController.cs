@@ -33,6 +33,7 @@ namespace DatingApp.API.Controllers
         }
 
         // GET  
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {
