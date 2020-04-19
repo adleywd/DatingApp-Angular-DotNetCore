@@ -60,7 +60,7 @@ export class PhotoEditorComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(this.authservice.currentUser));
         }
       }
-    }
+    };
   }
 
   setMainPhoto(photo: Photo) {
