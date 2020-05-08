@@ -14,9 +14,10 @@ export class MemberListComponent implements OnInit {
 
   users: User[];
   user: User = JSON.parse(localStorage.getItem('user'));
-  genderList = [{value: 'male', display: 'Males'}, {value: 'female', display: 'Females'}];
+  genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }];
   userParams: any = {};
   pagination: Pagination;
+  btnLastActive = true;
 
   constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
 
@@ -45,14 +46,21 @@ export class MemberListComponent implements OnInit {
     this.loadUsers();
   }
 
-loadUsers() {
-  this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams).subscribe(
-    (res: PaginatedResult<User[]>) => {
-      this.users = res.result;
-      this.pagination = res.pagination;
-  }, error => {
-      this.alertify.error(error);
-  });
-}
+  loadUsers(lastButtonClicked = 'current') {
+    if (lastButtonClicked !== 'current') {
+      if (lastButtonClicked === 'last') {
+        this.btnLastActive = true;
+      } else if (lastButtonClicked === 'newest') {
+        this.btnLastActive = false;
+      }
+    }
+    this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams).subscribe(
+      (res: PaginatedResult<User[]>) => {
+        this.users = res.result;
+        this.pagination = res.pagination;
+      }, error => {
+        this.alertify.error(error);
+      });
+  }
 
 }
